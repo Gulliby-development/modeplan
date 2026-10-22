@@ -63,6 +63,11 @@ public static class Rules
             findings.Add(("MA007", "group-writable"));
         }
 
+        if (entry.Dir && (entry.Mode & 0x800) != 0)
+        {
+            findings.Add(("MA008", "setuid bit on a directory"));
+        }
+
         return findings;
     }
 
