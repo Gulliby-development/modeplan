@@ -77,7 +77,7 @@ changed     3 bits
 - `modeplan apply MODE EXPR [--dir] [--umask OCT]` applies a numeric or symbolic permission expression to one mode. Example: `modeplan apply 0644 u+x,go-r`.
 - `modeplan plan OLD NEW` prints a canonical symbolic expression that changes one mode into another. Example: `modeplan plan 0644 4755`.
 - `modeplan match LISTING TEST... [--kind f|d]` selects listing entries using exact, all-bits, or any-bits permission tests. Example: `modeplan match tree.txt -111`.
-- `modeplan audit LISTING [--strict]` reports risky permission combinations, including a setuid bit on a directory (`MA008`), which has no effect on Linux. Example: `modeplan audit tree.txt`.
+- `modeplan audit LISTING [--strict]` reports risky permission combinations, including a setuid bit on a directory (`MA008`), which has no effect on Linux. With `--strict` it also reports a permission that other has and group lacks (`MA009`). Example: `modeplan audit tree.txt`.
 - `modeplan tree LISTING EXPR [--umask OCT]` previews the changes an expression would make to each listing entry. Example: `modeplan tree tree.txt a+X,g-w`.
 
 The audit example above prints:
@@ -97,7 +97,7 @@ The audit example above prints:
 | `--dir` | `apply` | Treat MODE as a directory (matters for `X`). |
 | `--umask OCT` | `apply`, `tree` | Umask of 1 to 3 octal digits, default `022`. |
 | `--kind f\|d` | `match` | Look only at files (`f`) or directories (`d`). |
-| `--strict` | `audit` | Also report group-writable entries (`MA007`). |
+| `--strict` | `audit` | Also report group-writable entries (`MA007`) and permissions that other has but group lacks (`MA009`). |
 
 ## Exit codes
 
