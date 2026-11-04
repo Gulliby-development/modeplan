@@ -68,6 +68,18 @@ public static class Rules
             findings.Add(("MA008", "setuid bit on a directory"));
         }
 
+        if (strict)
+        {
+            var otherBeyondGroup = string.Concat(
+                (entry.Mode & 0x004) != 0 && (entry.Mode & 0x020) == 0 ? "r" : "",
+                (entry.Mode & 0x002) != 0 && (entry.Mode & 0x010) == 0 ? "w" : "",
+                (entry.Mode & 0x001) != 0 && (entry.Mode & 0x008) == 0 ? "x" : "");
+            if (otherBeyondGroup.Length != 0)
+            {
+                findings.Add(("MA009", $"other has {otherBeyondGroup} that group lacks"));
+            }
+        }
+
         return findings;
     }
 
